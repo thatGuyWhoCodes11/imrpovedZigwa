@@ -16,24 +16,24 @@ app.post('/register',(req,res,next)=>{
     console.log(data)
     db.insertMany(data).then((doc)=>{
         if(doc)
-            res.json({status:'success!',isSent:true})
+            res.statusCode(201)
         else
-            res.json({status:'failed, not saved',isSent:false})
+            res.statusCode(500)
         
     }).catch((err)=>{
         console.log(err)
-        res.json({status:'failed, internal error',isSent:false})
+        res.statusCode(500)
     })
 })
 app.post('/insertBank',(req,res)=>{
     const {name,cardNum,expDate,cvc,cardHolder}=req.body
     db.updateOne({name},{$set:{hasBank:true},$push:{bankDetails:{cardNum,expDate,cvc,cardHolder}}}).then((doc)=>{
         if(doc)
-            res.json({status:'success!',isSent:true})
+            res.statusCode(201)
         else
-            res.json({status:'failed, not saved',isSent:false})
+            res.statusCode(500)
     }).catch((err)=>{
         console.log(err)
-        res.json({status:'failed, internal error',isSent:false})
+        res.statusCode(500)
     })
 })
